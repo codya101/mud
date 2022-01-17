@@ -1,6 +1,6 @@
-# trade
+# mud
 
-A trading system simulator for testing new ideas, libraries, etc.
+A simple mud
 
 ## Libraries in play
 
