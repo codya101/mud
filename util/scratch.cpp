@@ -6,11 +6,15 @@
 using namespace std;
 
 struct A {
-  virtual void init() { fmt::printf("%s::init()\n", "A"); }
+  virtual void init() {
+    fmt::printf("%s::init()\n", "A");
+  }
 };
 
 struct B : public A {
-  virtual void init() { fmt::printf("%s::init()\n", "B"); }
+  virtual void init() {
+    fmt::printf("%s::init()\n", "B");
+  }
 };
 
 int main(int /*argc*/, char** /*argv*/) {
