@@ -19,14 +19,6 @@ namespace common {
 
   std::string trim(const std::string& str);
 
-  typedef std::chrono::high_resolution_clock clock_t;
-  typedef std::unordered_map<std::string, std::function<void()>> CallbackMap;
-
-  std::chrono::milliseconds get_current_milliseconds();
-
-  std::pair<std::string, int> parse_ip_port(const std::string& arg);
-  std::string collapse_line(const std::string& message);
-
   template <class T> std::string numberFormatWithCommas(T value, uint8_t precision = 0) {
     struct Numpunct : public std::numpunct<char> {
     protected:

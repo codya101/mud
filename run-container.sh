@@ -4,5 +4,5 @@
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd $SCRIPT_DIR
-bazel build //...
-bazel-bin/life "$@"
+bazel build //mud:main
+bazel-bin/mud/main "$@"

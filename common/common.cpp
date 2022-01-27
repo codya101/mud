@@ -24,30 +24,6 @@ namespace common {
     return str.substr(a, 1 + b - a);
   }
 
-  std::chrono::milliseconds get_current_milliseconds() {
-    return std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch());
-  }
-
-  // parse_ip_port()
-  //
-  // Parses ip:port string into components
-
-  std::pair<std::string, int> parse_ip_port(const std::string& arg) {
-    std::istringstream target_arg(arg);
-    std::string s;
-    std::vector<std::string> ip_port;
-
-    while (std::getline(target_arg, s, ':')) {
-      ip_port.push_back(s);
-    }
-
-    if (ip_port.size() != 2) {
-      throw std::invalid_argument("ip:port could not be parsed.");
-    }
-
-    return { ip_port[0], std::stoi(ip_port[1]) };
-  }
-
   std::string collapse_line(const std::string& message) {
     std::string oneline = message;
     std::replace(oneline.begin(), oneline.end(), '\n', ',');
