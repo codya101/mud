@@ -2,6 +2,13 @@
 
 A simple mud
 
+## To Run
+
+
+```
+bazel run //mud:main
+```
+
 ## Libraries in play
 
 - C++ 20 / gcc 10.2.1

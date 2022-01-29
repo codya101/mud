@@ -32,6 +32,8 @@ RUN wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add - \
     docker-ce-cli \
     bazel \
     tree \
+    moreutils \
+    telnet \
     && rm -rf /var/lib/apt/lists/* \
     && apt-get clean
 
