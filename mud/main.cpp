@@ -5,6 +5,7 @@
 #include <netinet/in.h> // For sockaddr_in
 #include <cstdlib>      // For exit() and EXIT_FAILURE
 #include <unistd.h>     // For read
+#include <stdlib.h> 
 
 using namespace std;
 
@@ -16,7 +17,13 @@ using namespace std;
 //    with basic stats (strength, dexterity, intelligence)
 // Create class to represent items
 
-int main(int /*argc*/, char** /*argv*/) {
+int main(int argc, char** argv) {
+
+  int port = 9999; 
+  //  if (argc > 1) {
+  //    port = atoi(argv[1]); 
+  //  }
+  //   std::cout << "The port is " << port << std::endl;
 
   // Create a socket (IPv4, TCP)
   int sockfd = socket(AF_INET, SOCK_STREAM, 0);
@@ -29,7 +36,7 @@ int main(int /*argc*/, char** /*argv*/) {
   sockaddr_in sockaddr;
   sockaddr.sin_family = AF_INET;
   sockaddr.sin_addr.s_addr = INADDR_ANY;
-  sockaddr.sin_port = htons(9999); // htons is necessary to convert a number to
+  sockaddr.sin_port = htons(port); // htons is necessary to convert a number to
                                    // network byte order
 
   if (bind(sockfd, (struct sockaddr*)&sockaddr, sizeof(sockaddr)) < 0) {
@@ -44,23 +51,37 @@ int main(int /*argc*/, char** /*argv*/) {
   }
 
   // Grab a connection from the queue
-  auto addrlen = sizeof(sockaddr);
-  int connection = accept(sockfd, (struct sockaddr*)&sockaddr, (socklen_t*)&addrlen);
-  if (connection < 0) {
-    std::cout << "Failed to grab connection. errno: " << errno << std::endl;
-    exit(EXIT_FAILURE);
-  }
+  int connection = -1; 
 
   bool keep_going = true;
   while (keep_going) {
+    if (connection == -1) {
+      auto addrlen = sizeof(sockaddr);
+      connection = accept(sockfd, (struct sockaddr*)&sockaddr, (socklen_t*)&addrlen);
+      if (connection < 0) {
+        std::cout << "Failed to grab connection. errno: " << errno << std::endl;
+        exit(EXIT_FAILURE);
+      }
+    }
     std::string prompt = "mud> ";
     send(connection, prompt.c_str(), prompt.size(), 0);
 
     // Read from the connection
     char buffer[100];
     memset(buffer, 0, 100);
-    /*auto bytesRead = */ read(connection, buffer, 100);
-    std::cout << "The message was: " << buffer;
+    auto bytesRead = read(connection, buffer, 100);
+
+    std::cout << "BytesRead = " << bytesRead << ", buffer[0] =  " << (int)buffer[0] << std::endl; 
+
+    if (bytesRead == -1 || (bytesRead == 1 && buffer[0] == 4) ) {
+      std::cout << "Disconnecting client " << std::endl; 
+      close(connection);
+      connection = -1; 
+    }
+
+    std::cout << "The message was: " << buffer << std::endl;
+
+    
 
     // Send a message to the connection
     std::string response = std::string("Nice command: ") + buffer + "\n";
