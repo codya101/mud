@@ -5,7 +5,7 @@
 #include <netinet/in.h> // For sockaddr_in
 #include <cstdlib>      // For exit() and EXIT_FAILURE
 #include <unistd.h>     // For read
-#include <stdlib.h> 
+#include <stdlib.h>
 
 using namespace std;
 
@@ -19,11 +19,11 @@ using namespace std;
 
 int main(int argc, char** argv) {
 
-  int port = 9999; 
-  //  if (argc > 1) {
-  //    port = atoi(argv[1]); 
-  //  }
-  //   std::cout << "The port is " << port << std::endl;
+  int port = 9999;
+  if (argc > 1) {
+    port = atoi(argv[1]);
+  }
+  std::cout << "The port is " << port << std::endl;
 
   // Create a socket (IPv4, TCP)
   int sockfd = socket(AF_INET, SOCK_STREAM, 0);
@@ -51,7 +51,7 @@ int main(int argc, char** argv) {
   }
 
   // Grab a connection from the queue
-  int connection = -1; 
+  int connection = -1;
 
   bool keep_going = true;
   while (keep_going) {
@@ -71,17 +71,15 @@ int main(int argc, char** argv) {
     memset(buffer, 0, 100);
     auto bytesRead = read(connection, buffer, 100);
 
-    std::cout << "BytesRead = " << bytesRead << ", buffer[0] =  " << (int)buffer[0] << std::endl; 
+    std::cout << "BytesRead = " << bytesRead << ", buffer[0] =  " << (int)buffer[0] << std::endl;
 
-    if (bytesRead == -1 || (bytesRead == 1 && buffer[0] == 4) ) {
-      std::cout << "Disconnecting client " << std::endl; 
+    if (bytesRead == -1 || (bytesRead == 1 && buffer[0] == 4)) {
+      std::cout << "Disconnecting client " << std::endl;
       close(connection);
-      connection = -1; 
+      connection = -1;
     }
 
     std::cout << "The message was: " << buffer << std::endl;
-
-    
 
     // Send a message to the connection
     std::string response = std::string("Nice command: ") + buffer + "\n";
