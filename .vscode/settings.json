@@ -82,10 +82,8 @@
     "concepts": "cpp",
     "locale": "cpp",
     "variant": "cpp",
-    "any": "cpp",
-    "coroutine": "cpp",
-    "numbers": "cpp",
-    "stop_token": "cpp"
+    "stop_token": "cpp",
+    "any": "cpp"
   },
   "terminal.integrated.sendKeybindingsToShell": true,
   "terminal.integrated.allowChords": false,
@@ -100,6 +98,10 @@
     "//...",
   ],
   "editor.formatOnSave": true,
-  "clang-format.executable": "/usr/lib/llvm-14/bin/clang-format",
-  "C_Cpp.default.intelliSenseMode": "linux-clang-x64"
+  "clang-format.executable": "/usr/bin/clang-format",
+  "C_Cpp.default.intelliSenseMode": "linux-clang-x64",
+  "terminal.integrated.scrollback": 100000,
+  "[markdown]": {
+    "editor.tabSize": 4
+  }
 }
